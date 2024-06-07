@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34525.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "qs-server", "qs-server.csproj", "{99515614-32D3-4523-BDC5-563B6B91FDFB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{99515614-32D3-4523-BDC5-563B6B91FDFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99515614-32D3-4523-BDC5-563B6B91FDFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99515614-32D3-4523-BDC5-563B6B91FDFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99515614-32D3-4523-BDC5-563B6B91FDFB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1ED96EF6-E33C-4C67-ABF8-9F6C11633F55}
+	EndGlobalSection
+EndGlobal

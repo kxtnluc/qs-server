@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Questionnaire.Data;
@@ -11,9 +12,11 @@ using Questionnaire.Data;
 namespace qs_server.Migrations
 {
     [DbContext(typeof(QuestionnaireDbContext))]
-    partial class QuestionnaireDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240607202509_AddingPriorityNumberField")]
+    partial class AddingPriorityNumberField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

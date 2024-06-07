@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Questionnaire.Data;
@@ -11,9 +12,11 @@ using Questionnaire.Data;
 namespace qs_server.Migrations
 {
     [DbContext(typeof(QuestionnaireDbContext))]
-    partial class QuestionnaireDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240607152338_AlteringDataFields")]
+    partial class AlteringDataFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,14 +152,15 @@ namespace qs_server.Migrations
                         {
                             Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ce8fcf5e-bcea-4a4e-a372-ef8a85c3e4a7",
+                            ConcurrencyStamp = "8ceeacc2-ce73-4178-af0f-698ec698ebab",
                             Email = "QuestionnaireAdministrator@admin.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEBtqoNrTVa6jA3pspRri0lDezorYY8iEi1dJHGI0cGeiaJSlI1EeeOmjlmEezQUrbA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAXlUaUE1d7eHtsGCESSNEEcsCBwgTWFqdrQ4LdY9S4wLexReVm0ohjaX3bA+sODfA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "03057e55-a67a-4708-a312-0aca79ea45ca",
-                            TwoFactorEnabled = false
+                            SecurityStamp = "98edd8ca-6cdc-4c16-aef2-1661922cecb2",
+                            TwoFactorEnabled = false,
+                            UserName = "Administrator"
                         });
                 });
 
@@ -426,6 +430,7 @@ namespace qs_server.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -453,9 +458,6 @@ namespace qs_server.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("PriorityNumber")
-                        .HasColumnType("integer");
-
                     b.Property<int>("QuestionId")
                         .HasColumnType("integer");
 
@@ -476,7 +478,6 @@ namespace qs_server.Migrations
                         new
                         {
                             Id = 1,
-                            PriorityNumber = 1,
                             QuestionId = 1,
                             Response = "Admin",
                             UserProfileId = 1
@@ -484,7 +485,6 @@ namespace qs_server.Migrations
                         new
                         {
                             Id = 2,
-                            PriorityNumber = 2,
                             QuestionId = 2,
                             Response = "Administrator",
                             UserProfileId = 1
@@ -492,7 +492,6 @@ namespace qs_server.Migrations
                         new
                         {
                             Id = 3,
-                            PriorityNumber = 1,
                             QuestionId = 3,
                             Response = "4",
                             UserProfileId = 1
@@ -500,7 +499,6 @@ namespace qs_server.Migrations
                         new
                         {
                             Id = 4,
-                            PriorityNumber = 2,
                             QuestionId = 4,
                             Response = "Napoleon",
                             UserProfileId = 1
@@ -508,7 +506,6 @@ namespace qs_server.Migrations
                         new
                         {
                             Id = 5,
-                            PriorityNumber = 1,
                             QuestionId = 5,
                             Response = "Bank of America",
                             UserProfileId = 1

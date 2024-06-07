@@ -7,4 +7,5 @@ public class UserQuestion
     public Question? Question { get; set; }
     public int QuestionId { get; set; }
     public string Response { get; set; }
+    public int PriorityNumber { get; set; }
 }

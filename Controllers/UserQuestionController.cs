@@ -51,7 +51,8 @@ namespace Questionnaire.Controllers
                     Body = uq.Question.Body,
                     QuestionGroupId = uq.Question.QuestionGroupId,
                 },
-                Response = uq.Response
+                Response = uq.Response,
+                PriorityNumber = uq.PriorityNumber
             }).ToList();
 
             return Ok(foundUserQuestions);

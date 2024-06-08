@@ -36,7 +36,6 @@ public class QuestionnaireDbContext : IdentityDbContext<IdentityUser>
         modelBuilder.Entity<IdentityUser>().HasData(new IdentityUser
         {
             Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
-            UserName = "Administrator",
             Email = "QuestionnaireAdministrator@admin.comx",
             PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, _configuration["AdminPassword"])
         });
@@ -83,12 +82,15 @@ public class QuestionnaireDbContext : IdentityDbContext<IdentityUser>
                 Id = 1,
                 Body = "First Name",
                 QuestionGroupId = 1,
+                PaidUsersOnly = false,
+                MultipleResponses = false,
             },
             new Question
             {
                 Id = 2,
                 Body = "Last Name",
                 QuestionGroupId = 1,
+                PaidUsersOnly = false,
             },
             //Pet Questions==========================
             new Question
@@ -96,13 +98,16 @@ public class QuestionnaireDbContext : IdentityDbContext<IdentityUser>
                 Id = 3,
                 Body = "Number of Pets",
                 QuestionGroupId = 2,
-      
+                PaidUsersOnly = true,
+                MultipleResponses = false,
             },
             new Question
             {
                 Id = 4,
                 Body = "Pet Name",
                 QuestionGroupId = 2,
+                PaidUsersOnly = true,
+                MultipleResponses = true,
             },
             //Bank Questions==========================
             new Question
@@ -110,12 +115,16 @@ public class QuestionnaireDbContext : IdentityDbContext<IdentityUser>
                 Id = 5,
                 Body = "Bank Name",
                 QuestionGroupId = 3,
+                PaidUsersOnly = true,
+                MultipleResponses = true,
             },
             new Question
             {
                 Id = 6,
                 Body = "Account Number",
                 QuestionGroupId = 3,
+                PaidUsersOnly = true,
+                MultipleResponses = true,
             }
         );
         //=====================================UserQuestions
@@ -125,35 +134,40 @@ public class QuestionnaireDbContext : IdentityDbContext<IdentityUser>
                 Id = 1,
                 UserProfileId = 1,
                 QuestionId = 1,
-                Response = "Admin"
+                Response = "Admin",
+                PriorityNumber = 1,
             },
             new UserQuestion
             {
                 Id = 2,
                 UserProfileId = 1,
                 QuestionId = 2,
-                Response = "Administrator"
+                Response = "Administrator",
+                PriorityNumber = 2,
             },
             new UserQuestion
             {
                 Id = 3,
                 UserProfileId = 1,
                 QuestionId = 3,
-                Response = "4"
+                Response = "4",
+                PriorityNumber = 1,
             },
             new UserQuestion
             {
                 Id = 4,
                 UserProfileId = 1,
                 QuestionId = 4,
-                Response = "Napoleon"
+                Response = "Napoleon",
+                PriorityNumber = 2,
             },
             new UserQuestion
             {
                 Id = 5,
                 UserProfileId = 1,
                 QuestionId = 5,
-                Response = "Bank of America"
+                Response = "Bank of America",
+                PriorityNumber = 1,
             }
         );
 
@@ -173,6 +187,12 @@ public class QuestionnaireDbContext : IdentityDbContext<IdentityUser>
             new Membership
             {
                 Id = 3,
+                Name = "Yearly",
+                Price = 60,
+            },
+            new Membership
+            {
+                Id = 4,
                 Name = "Lifetime",
                 Price = 300,
             }

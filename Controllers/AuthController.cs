@@ -119,6 +119,7 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegistrationDTO registration)
     {
+
         var user = new IdentityUser
         {
             UserName = registration.UserName,

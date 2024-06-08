@@ -43,7 +43,9 @@ namespace Questionnaire.Controllers
                         {
                             Id = q.Id,
                             Body = q.Body,
-                            QuestionGroupId = q.QuestionGroupId
+                            QuestionGroupId = q.QuestionGroupId,
+                            PaidUsersOnly = q.PaidUsersOnly,
+                            MultipleResponses = q.MultipleResponses
                         }).ToList()
                     }).ToList();
 
@@ -68,6 +70,8 @@ namespace Questionnaire.Controllers
                         Id = q.Id,
                         Body = q.Body,
                         QuestionGroupId = q.QuestionGroupId,
+                        MultipleResponses = q.MultipleResponses,
+                        PaidUsersOnly = q.PaidUsersOnly,
                         UserQuestions = q.UserQuestions.Where(uq => uq.UserProfileId == userid).Select(uq => new UserQuestionDTO //this is skitzo but whatever
                         {
                             Id = uq.Id,

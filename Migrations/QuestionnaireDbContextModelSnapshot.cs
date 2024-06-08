@@ -149,13 +149,13 @@ namespace qs_server.Migrations
                         {
                             Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ce8fcf5e-bcea-4a4e-a372-ef8a85c3e4a7",
+                            ConcurrencyStamp = "3a695a17-b27e-4de5-a1e3-5db7844eaf05",
                             Email = "QuestionnaireAdministrator@admin.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEBtqoNrTVa6jA3pspRri0lDezorYY8iEi1dJHGI0cGeiaJSlI1EeeOmjlmEezQUrbA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKIgjIlt8NYGpscKVf+awj9Xn6Yh/9Pj1OdkKdFUO4mB0oEk8DrC3HBPyLmLTEMhCA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "03057e55-a67a-4708-a312-0aca79ea45ca",
+                            SecurityStamp = "176cc726-6ddf-4145-aee6-e34b22132172",
                             TwoFactorEnabled = false
                         });
                 });

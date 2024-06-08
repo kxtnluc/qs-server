@@ -12,8 +12,8 @@ using Questionnaire.Data;
 namespace qs_server.Migrations
 {
     [DbContext(typeof(QuestionnaireDbContext))]
-    [Migration("20240604143342_StarterData")]
-    partial class StarterData
+    [Migration("20240608151544_SecondInitialCreate")]
+    partial class SecondInitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -152,15 +152,14 @@ namespace qs_server.Migrations
                         {
                             Id = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b990618e-fa40-47fe-b97d-ae2ca0fdb511",
+                            ConcurrencyStamp = "3a695a17-b27e-4de5-a1e3-5db7844eaf05",
                             Email = "QuestionnaireAdministrator@admin.comx",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAEIUhTPnUFVPBbKtXcBByaefBXjrL8E8Am8LfDfHvWksiADTbHGsoV6+c77EDj6AJhg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKIgjIlt8NYGpscKVf+awj9Xn6Yh/9Pj1OdkKdFUO4mB0oEk8DrC3HBPyLmLTEMhCA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5314ea8a-64d6-4930-857c-fca5b8f9d9a8",
-                            TwoFactorEnabled = false,
-                            UserName = "Administrator"
+                            SecurityStamp = "176cc726-6ddf-4145-aee6-e34b22132172",
+                            TwoFactorEnabled = false
                         });
                 });
 
@@ -287,6 +286,12 @@ namespace qs_server.Migrations
                         new
                         {
                             Id = 3,
+                            Name = "Yearly",
+                            Price = 60L
+                        },
+                        new
+                        {
+                            Id = 4,
                             Name = "Lifetime",
                             Price = 300L
                         });
@@ -304,10 +309,18 @@ namespace qs_server.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("MultipleResponses")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("PaidUsersOnly")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("QuestionGroupId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("QuestionGroupId");
 
                     b.ToTable("Questions");
 
@@ -316,36 +329,48 @@ namespace qs_server.Migrations
                         {
                             Id = 1,
                             Body = "First Name",
+                            MultipleResponses = false,
+                            PaidUsersOnly = false,
                             QuestionGroupId = 1
                         },
                         new
                         {
                             Id = 2,
                             Body = "Last Name",
+                            MultipleResponses = false,
+                            PaidUsersOnly = false,
                             QuestionGroupId = 1
                         },
                         new
                         {
                             Id = 3,
                             Body = "Number of Pets",
+                            MultipleResponses = false,
+                            PaidUsersOnly = true,
                             QuestionGroupId = 2
                         },
                         new
                         {
                             Id = 4,
                             Body = "Pet Name",
+                            MultipleResponses = true,
+                            PaidUsersOnly = true,
                             QuestionGroupId = 2
                         },
                         new
                         {
                             Id = 5,
                             Body = "Bank Name",
+                            MultipleResponses = true,
+                            PaidUsersOnly = true,
                             QuestionGroupId = 3
                         },
                         new
                         {
                             Id = 6,
                             Body = "Account Number",
+                            MultipleResponses = true,
+                            PaidUsersOnly = true,
                             QuestionGroupId = 3
                         });
                 });
@@ -357,9 +382,6 @@ namespace qs_server.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("QuestionSectionId")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -373,19 +395,16 @@ namespace qs_server.Migrations
                         new
                         {
                             Id = 1,
-                            QuestionSectionId = 0,
                             Title = "User"
                         },
                         new
                         {
                             Id = 2,
-                            QuestionSectionId = 0,
                             Title = "Pet"
                         },
                         new
                         {
                             Id = 3,
-                            QuestionSectionId = 0,
                             Title = "Bank"
                         });
                 });
@@ -410,7 +429,6 @@ namespace qs_server.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -438,6 +456,9 @@ namespace qs_server.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("PriorityNumber")
+                        .HasColumnType("integer");
+
                     b.Property<int>("QuestionId")
                         .HasColumnType("integer");
 
@@ -450,12 +471,15 @@ namespace qs_server.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("QuestionId");
+
                     b.ToTable("UserQuestions");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
+                            PriorityNumber = 1,
                             QuestionId = 1,
                             Response = "Admin",
                             UserProfileId = 1
@@ -463,6 +487,7 @@ namespace qs_server.Migrations
                         new
                         {
                             Id = 2,
+                            PriorityNumber = 2,
                             QuestionId = 2,
                             Response = "Administrator",
                             UserProfileId = 1
@@ -470,6 +495,7 @@ namespace qs_server.Migrations
                         new
                         {
                             Id = 3,
+                            PriorityNumber = 1,
                             QuestionId = 3,
                             Response = "4",
                             UserProfileId = 1
@@ -477,6 +503,7 @@ namespace qs_server.Migrations
                         new
                         {
                             Id = 4,
+                            PriorityNumber = 2,
                             QuestionId = 4,
                             Response = "Napoleon",
                             UserProfileId = 1
@@ -484,6 +511,7 @@ namespace qs_server.Migrations
                         new
                         {
                             Id = 5,
+                            PriorityNumber = 1,
                             QuestionId = 5,
                             Response = "Bank of America",
                             UserProfileId = 1
@@ -541,6 +569,15 @@ namespace qs_server.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Questionnaire.Models.Question", b =>
+                {
+                    b.HasOne("Questionnaire.Models.QuestionGroup", null)
+                        .WithMany("Questions")
+                        .HasForeignKey("QuestionGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Questionnaire.Models.UserProfile", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
@@ -550,6 +587,27 @@ namespace qs_server.Migrations
                         .IsRequired();
 
                     b.Navigation("IdentityUser");
+                });
+
+            modelBuilder.Entity("Questionnaire.Models.UserQuestion", b =>
+                {
+                    b.HasOne("Questionnaire.Models.Question", "Question")
+                        .WithMany("UserQuestions")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+                });
+
+            modelBuilder.Entity("Questionnaire.Models.Question", b =>
+                {
+                    b.Navigation("UserQuestions");
+                });
+
+            modelBuilder.Entity("Questionnaire.Models.QuestionGroup", b =>
+                {
+                    b.Navigation("Questions");
                 });
 #pragma warning restore 612, 618
         }

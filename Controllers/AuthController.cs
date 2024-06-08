@@ -49,8 +49,7 @@ public class AuthController : ControllerBase
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim(ClaimTypes.Name, user.UserName.ToString()),
-                    new Claim(ClaimTypes.Email, user.Email)
+                    new Claim(ClaimTypes.Email, user.Email),
 
                 };
 
@@ -122,7 +121,7 @@ public class AuthController : ControllerBase
 
         var user = new IdentityUser
         {
-            UserName = registration.UserName,
+            UserName = registration.Email,
             Email = registration.Email
         };
 
@@ -136,15 +135,15 @@ public class AuthController : ControllerBase
             _dbContext.UserProfiles.Add(new UserProfile
             {
                 IdentityUserId = user.Id,
+                Email = user.Email,
+                UserName = user.UserName,
             });
             _dbContext.SaveChanges();
 
             var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim(ClaimTypes.Name, user.UserName.ToString()),
                     new Claim(ClaimTypes.Email, user.Email)
-
                 };
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 

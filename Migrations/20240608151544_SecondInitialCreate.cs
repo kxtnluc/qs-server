@@ -4,10 +4,12 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace qs_server.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class SecondInitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -49,6 +51,33 @@ namespace qs_server.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Memberships",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Price = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Memberships", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QuestionGroups",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Title = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuestionGroups", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -164,7 +193,8 @@ namespace qs_server.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Email = table.Column<string>(type: "text", nullable: false),
-                    UserName = table.Column<string>(type: "text", nullable: false),
+                    UserName = table.Column<string>(type: "text", nullable: true),
+                    MembershipId = table.Column<int>(type: "integer", nullable: false),
                     IdentityUserId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
@@ -178,6 +208,50 @@ namespace qs_server.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Questions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Body = table.Column<string>(type: "text", nullable: false),
+                    QuestionGroupId = table.Column<int>(type: "integer", nullable: false),
+                    PaidUsersOnly = table.Column<bool>(type: "boolean", nullable: false),
+                    MultipleResponses = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Questions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Questions_QuestionGroups_QuestionGroupId",
+                        column: x => x.QuestionGroupId,
+                        principalTable: "QuestionGroups",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserQuestions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserProfileId = table.Column<int>(type: "integer", nullable: false),
+                    QuestionId = table.Column<int>(type: "integer", nullable: false),
+                    Response = table.Column<string>(type: "text", nullable: false),
+                    PriorityNumber = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserQuestions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserQuestions_Questions_QuestionId",
+                        column: x => x.QuestionId,
+                        principalTable: "Questions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
@@ -186,7 +260,28 @@ namespace qs_server.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f", 0, "a7076818-1111-4c10-81fe-50061ee0a575", "QuestionnaireAdministrator@admin.comx", false, false, null, null, null, "AQAAAAIAAYagAAAAEAihXKio3JJ5tBXYF7KUwFBzJGqjsbrms/5jEalsOHCdqYScWpk/1B2LzCFj1b4X9w==", null, false, "b57a7f48-4fd1-4b26-9225-1289d0c25380", false, "Administrator" });
+                values: new object[] { "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f", 0, "3a695a17-b27e-4de5-a1e3-5db7844eaf05", "QuestionnaireAdministrator@admin.comx", false, false, null, null, null, "AQAAAAIAAYagAAAAEKIgjIlt8NYGpscKVf+awj9Xn6Yh/9Pj1OdkKdFUO4mB0oEk8DrC3HBPyLmLTEMhCA==", null, false, "176cc726-6ddf-4145-aee6-e34b22132172", false, null });
+
+            migrationBuilder.InsertData(
+                table: "Memberships",
+                columns: new[] { "Id", "Name", "Price" },
+                values: new object[,]
+                {
+                    { 1, "Free", 0L },
+                    { 2, "Monthly", 10L },
+                    { 3, "Yearly", 60L },
+                    { 4, "Lifetime", 300L }
+                });
+
+            migrationBuilder.InsertData(
+                table: "QuestionGroups",
+                columns: new[] { "Id", "Title" },
+                values: new object[,]
+                {
+                    { 1, "User" },
+                    { 2, "Pet" },
+                    { 3, "Bank" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -194,9 +289,34 @@ namespace qs_server.Migrations
                 values: new object[] { "c3aaeb97-d2ba-4a53-a521-4eea61e59b35", "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f" });
 
             migrationBuilder.InsertData(
+                table: "Questions",
+                columns: new[] { "Id", "Body", "MultipleResponses", "PaidUsersOnly", "QuestionGroupId" },
+                values: new object[,]
+                {
+                    { 1, "First Name", false, false, 1 },
+                    { 2, "Last Name", false, false, 1 },
+                    { 3, "Number of Pets", false, true, 2 },
+                    { 4, "Pet Name", true, true, 2 },
+                    { 5, "Bank Name", true, true, 3 },
+                    { 6, "Account Number", true, true, 3 }
+                });
+
+            migrationBuilder.InsertData(
                 table: "UserProfiles",
-                columns: new[] { "Id", "Email", "IdentityUserId", "UserName" },
-                values: new object[] { 1, "QuestionnaireAdministrator@admin.comx", "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f", "Admin" });
+                columns: new[] { "Id", "Email", "IdentityUserId", "MembershipId", "UserName" },
+                values: new object[] { 1, "QuestionnaireAdministrator@admin.comx", "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f", 3, "Admin" });
+
+            migrationBuilder.InsertData(
+                table: "UserQuestions",
+                columns: new[] { "Id", "PriorityNumber", "QuestionId", "Response", "UserProfileId" },
+                values: new object[,]
+                {
+                    { 1, 1, 1, "Admin", 1 },
+                    { 2, 2, 2, "Administrator", 1 },
+                    { 3, 1, 3, "4", 1 },
+                    { 4, 2, 4, "Napoleon", 1 },
+                    { 5, 1, 5, "Bank of America", 1 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -236,9 +356,19 @@ namespace qs_server.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Questions_QuestionGroupId",
+                table: "Questions",
+                column: "QuestionGroupId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserProfiles_IdentityUserId",
                 table: "UserProfiles",
                 column: "IdentityUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserQuestions_QuestionId",
+                table: "UserQuestions",
+                column: "QuestionId");
         }
 
         /// <inheritdoc />
@@ -260,13 +390,25 @@ namespace qs_server.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Memberships");
+
+            migrationBuilder.DropTable(
                 name: "UserProfiles");
+
+            migrationBuilder.DropTable(
+                name: "UserQuestions");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Questions");
+
+            migrationBuilder.DropTable(
+                name: "QuestionGroups");
         }
     }
 }

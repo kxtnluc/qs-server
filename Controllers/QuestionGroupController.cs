@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Questionnaire.Data;
+using Questionnaire.Models;
 
 namespace Questionnaire.Controllers
 {
@@ -25,7 +27,18 @@ namespace Questionnaire.Controllers
             return Ok(_dbContext.QuestionGroups.ToList());
 
         }
+    //===============POSTS
+        //============one group
+        [HttpPost]
+        public IActionResult PostQuestionGroup(QuestionGroup qgToPost)
+        {
+            if (qgToPost == null) return BadRequest();
+
+            _dbContext.QuestionGroups.Add(qgToPost);
+            _dbContext.SaveChanges();
+
+            return Created($"/api/question/{qgToPost.Id}", qgToPost);
+        }
     }
-    //============one
     //==============================================================================</ENDPOINTS>=============================================================================================
 }

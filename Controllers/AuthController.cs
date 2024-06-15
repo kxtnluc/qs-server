@@ -107,7 +107,7 @@ public class AuthController : ControllerBase
                 IdentityUserId = identityUserId,
                 UserName = User.FindFirstValue(ClaimTypes.Name),
                 Email = User.FindFirstValue(ClaimTypes.Email),
-                //Roles = roles
+                Roles = roles
             };
 
             return Ok(userDto);

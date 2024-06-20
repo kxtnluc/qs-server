@@ -52,6 +52,7 @@ public class QuestionnaireDbContext : IdentityDbContext<IdentityUser>
                 Email = "QuestionnaireAdministrator@admin.comx",
                 UserName = "Admin",
                 MembershipId = 3,
+                PaidUser = true,
                 IdentityUserId = "dbc40bc6-0829-4ac5-a3ed-180f5e916a5f",
             }
         );
